@@ -1,0 +1,88 @@
+import java.util.Scanner;
+
+class Data {
+    String name;
+    long teleno;
+}
+
+class Hash {
+    int n, sum, x, c, i, j;
+    String na;
+    long no;
+    Data[] d = new Data[10];
+
+    public Hash() {
+        for (i = 0; i < 10; i++) {
+            d[i] = new Data();
+            d[i].teleno = 0;
+        }
+    }
+
+    void insert() {
+        Scanner input = new Scanner(System.in);
+        System.out.println("\n enter no. of clients");
+        n = input.nextInt();
+        for (j = 0; j < n; j++) {
+            System.out.println("\n enter name of client");
+            na = input.next();
+            System.out.println("\n enter telephone no. of client");
+            no = input.nextLong();
+            sum = 0;
+            for (i = 0; i < na.length(); i++) {
+                sum = sum + na.charAt(i);
+            }
+            x = (sum / na.length()) % 10;
+            System.out.println(x);
+            c = x;
+            while (true) {
+                if (d[x].teleno == 0) {
+                    d[x].name = na;
+                    d[x].teleno = no;
+                    break;
+                }
+                x = (x + 1) % 10;
+                if (c == x) {
+                    System.out.println("\n hash table is full");
+                    break;
+                }
+            }
+        }
+    }
+
+    void search() {
+        Scanner input = new Scanner(System.in);
+        System.out.println("\n enter name to be searched");
+        na = input.next();
+        sum = 0;
+        for (i = 0; i < na.length(); i++) {
+            sum = sum + (int) na.charAt(i);
+        }
+        x = (sum / na.length()) % 10;
+        c = x;
+        while (true) {
+            if (d[x].name.equals(na)) {
+                System.out.println("\n data found : TELEPHONE NO:" + d[x].teleno);
+                break;
+            }
+            x = (x + 1) % 10;
+            if (c == x) {
+                System.out.println("\n data not found");
+                break;
+            }
+        }
+    }
+
+    void display() {
+        for (int i = 0; i < 10; i++) {
+            System.out.println(d[i].name + " " + d[i].teleno);
+        }
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Hash h = new Hash();
+        h.insert();
+        h.search();
+    }
+}
